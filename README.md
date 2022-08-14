@@ -1,7 +1,7 @@
 # Expense_manager
-Categorization of expense from account statement__
-
-Arguments__ 
+Categorization of expense from account statement. 
+  
+Arguments. 
 --input : input csv path__
 --data : data dict file which contains mapping of categories__
 --month : account statement month name. 
