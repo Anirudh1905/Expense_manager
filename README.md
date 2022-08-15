@@ -1,7 +1,7 @@
 # Expense_manager
 Categorization of expense from account statement\
 \
-Run : pip install fuzzywuzzy\ 
+Run : pip install fuzzywuzzy 
   
 Arguments\
 --input : input csv path\
