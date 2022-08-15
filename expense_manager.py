@@ -126,16 +126,16 @@ def main(args_dict):
     print("Length: ",len(df))
     
     df['type'] = df['description'].apply(chk)
-    print(df['type'].value_counts())
+    # print(df['type'].value_counts())
     
     df=get_descriptions(df)
     df=get_category(df,args_dict)
-    print(df['category'].value_counts())
+    # print(df['category'].value_counts())
     
     df_debit=df[df.credit==0.0]
     df_debit.reset_index(inplace=True,drop=True)
     df_debit.drop(columns=['credit'],inplace=True)
-    print(df[df.category=="Others"])
+    # print(df[df.category=="Others"])
     
     df_credit=df[df.debit==0.0]
     df_credit.reset_index(inplace=True,drop=True)
