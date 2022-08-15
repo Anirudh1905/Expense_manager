@@ -2,7 +2,7 @@
 Categorization of expense from account statement\
 \
 Firstly download the account statement from bank website and store it as .csv\
-Requirement : pip install fuzzywuzzy 
+**Requirement** : pip install fuzzywuzzy 
   
 ## Arguments
 --input : input csv path\
