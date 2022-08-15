@@ -38,14 +38,10 @@ def get_descriptions(df):
     for i in range(len(df)):
         if df.iloc[i,-1]=="UPI":
             tmp=str(df.iloc[i,1]).rstrip(" ").split('-')
-            f=tmp[-1]
-            if f[:3]=="UPI":
-                f="UPI"
-            elif "JIO" in f or "REQUES" in f:
-                f="JIO"
-            elif "MILK" in f:
-                f="MILK"
-            user_info.append(f)
+            msg=tmp[-1]
+            if msg[:3]=="UPI":
+                msg="UPI"
+            user_info.append(msg)
             info.append(tmp[1])
             
         elif df.iloc[i,-1]=="Card":
@@ -81,7 +77,7 @@ def get_category(df,args_dict):
         info=str(df.iloc[i,-2])
         msg=str(df.iloc[i,-1])
         
-        if msg=="UPI" or msg=="JIO" or msg=="Card" or msg=="others":
+        if msg=="UPI" or msg=="Card" or msg=="others":
             t1=process.extract(info,tmp) 
             t_key,t_conf,t_data=t1[0][0],t1[0][1],info   
         else:
