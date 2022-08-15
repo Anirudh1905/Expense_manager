@@ -11,6 +11,9 @@ Firstly download the account statement from bank website and store it as .csv\
 **--output_img :** output image file path\
 **--output_csv :** output csv path. 
 
+## How to run?
+python expense_manager.py --input "input filepath" --data "data.json" --month "month-name" --output_img "output dir path/" --output_csv "output dir path/"
+
 ## Debit Pie Chart
 ![Debit Pie Chart](https://github.com/Anirudh1905/Expense_manager/blob/main/debit_january.png)
 

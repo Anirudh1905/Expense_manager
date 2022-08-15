@@ -115,7 +115,10 @@ def plot(x,y,type,args_dict):
     plt.legend(patches, labels, loc='upper left', bbox_to_anchor=(-1, 1.),
                fontsize=11)
 
-    plt.savefig(args_dict["output_img"]+type+"_"+args_dict["month"]+".png", bbox_inches='tight')
+    filepath=args_dict["output_img"]
+    if filepath[-1]!="/":
+        filepath=filepath+"/"
+    plt.savefig(filepath+type+"_"+args_dict["month"]+".png", bbox_inches='tight')
     # plt.show()
 
 def main(args_dict):
@@ -151,7 +154,10 @@ def main(args_dict):
     plot(credit['category'],credit['credit'],"credit",args_dict)
     print("Credit Plot Stored...")
     
-    df.to_csv(args_dict["output_csv"]+args_dict["month"]+"_op.csv",index=False)
+    filepath=args_dict["output_csv"]
+    if filepath[-1]!="/":
+        filepath=filepath+"/"
+    df.to_csv(filepath+args_dict["month"]+"_op.csv",index=False)
     print("CSV File Stored...")
 
 if __name__ == "__main__":
