@@ -1,10 +1,10 @@
-# Expense_manager
+# Expense Manager
 Categorization of expense from account statement\
 \
-Firstly download the account statement from bank website and store it as .csv
+Firstly download the account statement from bank website and store it as .csv\
 Requirement : pip install fuzzywuzzy 
   
-## Arguments\
+## Arguments
 --input : input csv path\
 --data : data dict file which contains mapping of categories\
 --month : account statement month name\
