@@ -13,24 +13,24 @@ warnings.filterwarnings("ignore")
 def chk(x):
     if x[:3]=="UPI":
         if "REFUND" in x or "UPIRET" in x or "REV-UPI"==x[:7] or "REVERS" in x or "RRR" in x:
-            return "refund"
+            return "Refund"
         return "UPI"
     elif "REFUND" in x or "UPIRET" in x or "REV-UPI"==x[:7] or "REVERS" in x or "RRR" in x:
-        return "refund"
+        return "Refund"
     elif x[:3]=="ATW":
         return 'ATM'
     elif x[:3]=="POS":
         return 'Card'
     elif "INTEREST" in x:
-        return 'savings interest'
+        return 'Savings Interest'
     elif x[:4]=="PRIN":
         return "FD returns"
     elif x[:4]=="INT.":
         return "FD interest"
     elif x[0].isdigit():
-        return 'acc_transfer'
+        return 'Account Transfer'
     else:
-        return 'others'
+        return 'Others'
 
 def get_descriptions(df):
     user_info=[]
@@ -53,14 +53,14 @@ def get_descriptions(df):
             user_info.append("Card")
             info.append(msg)
             
-        elif df.iloc[i,-1]=="refund":
+        elif df.iloc[i,-1]=="Refund":
             if df.iloc[i,-2]==0.0:
-                df.iloc[i,-1]="others"
-            user_info.append("others")
+                df.iloc[i,-1]="Others"
+            user_info.append("Others")
             info.append(df.iloc[i,-1])
         
         else:
-            user_info.append("others")
+            user_info.append("Others")
             info.append(df.iloc[i,-1])
         
     df["info"]=info
@@ -72,12 +72,13 @@ def get_category(df,args_dict):
     data = json.load(f)
     tmp=list(data.keys())
     category=[]
+    sub_category=[]
 
     for i in range(len(df)):
         info=str(df.iloc[i,-2])
         msg=str(df.iloc[i,-1])
         
-        if msg=="UPI" or msg=="Card" or msg=="others":
+        if msg=="UPI" or msg=="Card" or msg=="Others":
             t1=process.extract(info,tmp) 
             t_key,t_conf,t_data=t1[0][0],t1[0][1],info   
         else:
@@ -89,21 +90,25 @@ def get_category(df,args_dict):
             
         if t_conf>60:
             category.append(data[t_key])
+            sub_category.append(t_key)
         else:
             if msg=="UPI" or msg=="Card":
                 category.append(msg+" Transfer")
+                sub_category.append(msg+" Transfer")
             else:
                 category.append("Others")
+                sub_category.append("Others")
     #     print(t_data,t_conf,category[i])
     
+    df['sub_category']=sub_category
     df['category']=category
     return df
 
 def plot(x,y,type,args_dict):
     percent = 100.*y/y.sum()
-    cdict = dict(zip(x, plt.cm.tab10.colors))
+    cdict = dict(zip(x, plt.cm.tab10.colors if len(x)<=10 else plt.cm.tab20.colors)) 
     
-    patches, texts = plt.pie(y, startangle=90, radius=50,colors=[cdict[v] for v in x])
+    patches, texts = plt.pie(y, startangle=90, radius=50, colors=None if len(x)>20 else [cdict[v] for v in x])
 
     labels = ['{0} - {1:1.2f} %'.format(i,j) for i,j in zip(x, percent)]
 
@@ -136,7 +141,7 @@ def main(args_dict):
     
     df=get_descriptions(df)
     df=get_category(df,args_dict)
-    # print(df['category'].value_counts())
+    # print(df['sub_category'].value_counts())
     
     df_debit=df[df.credit==0.0]
     df_debit.reset_index(inplace=True,drop=True)
