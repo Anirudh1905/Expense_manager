@@ -9,7 +9,7 @@ Firstly download the account statement from bank website and store it as .csv\
 **--data :** data dict file which contains mapping of categories\
 **--month :** account statement month name\
 **--output_path :** output dir path\
-**--sub_category :** show debit sub category plot (optional by default false)
+**--sub_category :** show debit sub category plot (optional by default false)\
 **--type :** shows type of transactions plot (optional by default false)
 
 ## How to run?
