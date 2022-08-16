@@ -104,7 +104,7 @@ def get_category(df,args_dict):
     df['category']=category
     return df
 
-def plot(x,y,type,args_dict):
+def plot(x,y,type,filepath):
     percent = 100.*y/y.sum()
     cdict = dict(zip(x, plt.cm.tab10.colors if len(x)<=10 else plt.cm.tab20.colors)) 
     
@@ -123,13 +123,18 @@ def plot(x,y,type,args_dict):
     plt.legend(patches, labels, loc='upper left', bbox_to_anchor=(-1, 1.),
                fontsize=11)
 
-    filepath=args_dict["output_path"]
-    if filepath[-1]!="/":
-        filepath=filepath+"/"
     plt.savefig(filepath+type+".png", bbox_inches='tight')
     # plt.show()
 
 def main(args_dict):
+    
+    filepath=args_dict["output_path"]
+    if not os.path.isdir(filepath):
+        os.mkdir(filepath)
+        print("Output directory created")
+    if filepath[-1]!="/":
+        filepath=filepath+"/"
+
     df=pd.read_csv(args_dict["input"])
     df.drop(df.head(1).index,inplace=True)
     df=df.drop(['Value Dat','Chq/Ref Number   ','Closing Balance'],axis=1)
@@ -154,29 +159,26 @@ def main(args_dict):
     
     debit=df_debit.groupby(['category']).agg({'debit':sum}).sort_values(by='debit',ascending=False)
     debit.reset_index(inplace=True)
-    plot(debit['category'],debit['debit'],args_dict["month"].capitalize()+" Debit",args_dict)
+    plot(debit['category'],debit['debit'],args_dict["month"].capitalize()+" Debit",filepath)
     print("Debit Plot Stored...")
     
     if args_dict["sub_category"]:
         debit=df_debit.groupby(['sub_category']).agg({'debit':sum}).sort_values(by='debit',ascending=False)
         debit.reset_index(inplace=True)
-        plot(debit['sub_category'],debit['debit'],args_dict["month"].capitalize()+" Sub Category Debit",args_dict)
+        plot(debit['sub_category'],debit['debit'],args_dict["month"].capitalize()+" Sub Category Debit",filepath)
         print("Sub category Debit Plot Stored...")
         
     credit=df_credit.groupby(['category']).agg({'credit':sum}).sort_values(by='credit',ascending=False)
     credit.reset_index(inplace=True)
-    plot(credit['category'],credit['credit'],args_dict["month"].capitalize()+" Credit",args_dict)
+    plot(credit['category'],credit['credit'],args_dict["month"].capitalize()+" Credit",filepath)
     print("Credit Plot Stored...")
     
     df_sum=df.sum(axis=0,numeric_only = True).to_frame(name='Sum')
     df_sum.index=["Debit","Credit"]
     df_sum.reset_index(inplace=True)
-    plot(df_sum['index'],df_sum['Sum'],args_dict["month"].capitalize()+" Credit vs Debit",args_dict)
+    plot(df_sum['index'],df_sum['Sum'],args_dict["month"].capitalize()+" Credit vs Debit",filepath)
     print("Credit vs Debit Plot Stored...")
     
-    filepath=args_dict["output_path"]
-    if filepath[-1]!="/":
-        filepath=filepath+"/"
     df.to_csv(filepath+args_dict["month"]+"_op.csv",index=False)
     print("CSV File Stored...")
 
