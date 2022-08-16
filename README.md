@@ -21,4 +21,4 @@ python expense_manager.py --input "input filepath" --data "data.json" --month "m
 ![Credit Pie Chart](https://github.com/Anirudh1905/Expense_manager/blob/main/January%20Credit.png)
 
 ## Credit vs Debit Pie Chart
-![Credit Pie Chart](https://github.com/Anirudh1905/Expense_manager/blob/main/January%20Credit%20vs%20Debit.png)
+![Credit vs Debit Pie Chart](https://github.com/Anirudh1905/Expense_manager/blob/main/January%20Credit%20vs%20Debit.png)
