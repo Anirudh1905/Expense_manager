@@ -16,10 +16,10 @@ Firstly download the account statement from bank website and store it as .csv\
 python expense_manager.py --input "data/input filepath" --data "data/data.json" --month "month-name" --output_path "output dir path" --sub_category True --type True
 
 ## Credit Transactions Pie Chart
-![Credit Transactions](https://github.com/Anirudh1905/Expense_manager/blob/main/outputs/January%20Credit.png)
+![Credit Transactions](https://github.com/Anirudh1905/Expense_manager/blob/main/outputs/January%20Credit%20Transactions.png)
 
 ## Debit Transactions Pie Chart
-![Debit Transactions](https://github.com/Anirudh1905/Expense_manager/blob/main/outputs/January%20Credit.png)
+![Debit Transactions](https://github.com/Anirudh1905/Expense_manager/blob/main/outputs/January%20Debit%20Transactions.png)
 
 ## Credit Pie Chart
 ![Credit Pie Chart](https://github.com/Anirudh1905/Expense_manager/blob/main/outputs/January%20Credit.png)
