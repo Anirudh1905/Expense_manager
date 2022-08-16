@@ -157,6 +157,17 @@ def main(args_dict):
     df_credit.reset_index(inplace=True,drop=True)
     df_credit.drop(columns=['debit'],inplace=True)
     
+    if args_dict["type"]:
+        debit=df_debit.groupby(['type']).agg({'debit':sum}).sort_values(by='debit',ascending=False)
+        debit.reset_index(inplace=True)
+        plot(debit['type'],debit['debit'],args_dict["month"].capitalize()+" Debit Transactions",filepath)
+        print("Debit Transactions Plot Stored...")
+        
+        credit=df_credit.groupby(['type']).agg({'credit':sum}).sort_values(by='credit',ascending=False)
+        credit.reset_index(inplace=True)
+        plot(credit['type'],credit['credit'],args_dict["month"].capitalize()+" Credit Transactions",filepath)
+        print("Credit Transactions Plot Stored...")
+        
     debit=df_debit.groupby(['category']).agg({'debit':sum}).sort_values(by='debit',ascending=False)
     debit.reset_index(inplace=True)
     plot(debit['category'],debit['debit'],args_dict["month"].capitalize()+" Debit",filepath)
@@ -188,7 +199,8 @@ if __name__ == "__main__":
     parser.add_argument('--data', type=str, help="data dict file")
     parser.add_argument('--month', type=str, help="month name")
     parser.add_argument('--output_path', type=str, help="output path")
-    parser.add_argument('--sub_category', type=bool, nargs='?', const=False, help="show sub-category")
+    parser.add_argument('--sub_category', type=bool, nargs='?', const=False, help="shows sub-category")
+    parser.add_argument('--type', type=bool, nargs='?', const=False, help="shows type of transaction")
     
     args = parser.parse_args()
     args_dict = args.__dict__

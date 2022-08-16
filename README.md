@@ -10,9 +10,16 @@ Firstly download the account statement from bank website and store it as .csv\
 **--month :** account statement month name\
 **--output_path :** output dir path\
 **--sub_category :** show debit sub category plot (optional by default false)
+**--type :** shows type of transactions plot (optional by default false)
 
 ## How to run?
-python expense_manager.py --input "data/input filepath" --data "data/data.json" --month "month-name" --output_path "output dir path" --sub_category True
+python expense_manager.py --input "data/input filepath" --data "data/data.json" --month "month-name" --output_path "output dir path" --sub_category True --type True
+
+## Credit Transactions Pie Chart
+![Credit Transactions](https://github.com/Anirudh1905/Expense_manager/blob/main/outputs/January%20Credit.png)
+
+## Debit Transactions Pie Chart
+![Debit Transactions](https://github.com/Anirudh1905/Expense_manager/blob/main/outputs/January%20Credit.png)
 
 ## Credit Pie Chart
 ![Credit Pie Chart](https://github.com/Anirudh1905/Expense_manager/blob/main/outputs/January%20Credit.png)
