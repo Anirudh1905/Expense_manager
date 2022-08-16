@@ -100,10 +100,12 @@ def get_category(df,args_dict):
     return df
 
 def plot(x,y,type,args_dict):
-    porcent = 100.*y/y.sum()
+    percent = 100.*y/y.sum()
+    cdict = dict(zip(x, plt.cm.tab10.colors))
+    
+    patches, texts = plt.pie(y, startangle=90, radius=50,colors=[cdict[v] for v in x])
 
-    patches, texts = plt.pie(y, startangle=90, radius=50)
-    labels = ['{0} - {1:1.2f} %'.format(i,j) for i,j in zip(x, porcent)]
+    labels = ['{0} - {1:1.2f} %'.format(i,j) for i,j in zip(x, percent)]
 
     sort_legend = True
     if sort_legend:
@@ -112,13 +114,14 @@ def plot(x,y,type,args_dict):
                                               reverse=True))
 
     plt.axis('equal') 
+    plt.title(type+" Plot")
     plt.legend(patches, labels, loc='upper left', bbox_to_anchor=(-1, 1.),
                fontsize=11)
 
     filepath=args_dict["output_img"]
     if filepath[-1]!="/":
         filepath=filepath+"/"
-    plt.savefig(filepath+type+"_"+args_dict["month"]+".png", bbox_inches='tight')
+    plt.savefig(filepath+type+".png", bbox_inches='tight')
     # plt.show()
 
 def main(args_dict):
@@ -146,13 +149,19 @@ def main(args_dict):
     
     debit=df_debit.groupby(['category']).agg({'debit':sum}).sort_values(by='debit',ascending=False)
     debit.reset_index(inplace=True)
-    plot(debit['category'],debit['debit'],"debit",args_dict)
+    plot(debit['category'],debit['debit'],args_dict["month"].capitalize()+" Debit",args_dict)
     print("Debit Plot Stored...")
     
     credit=df_credit.groupby(['category']).agg({'credit':sum}).sort_values(by='credit',ascending=False)
     credit.reset_index(inplace=True)
-    plot(credit['category'],credit['credit'],"credit",args_dict)
+    plot(credit['category'],credit['credit'],args_dict["month"].capitalize()+" Credit",args_dict)
     print("Credit Plot Stored...")
+    
+    df_sum=df.sum(axis=0,numeric_only = True).to_frame(name='Sum')
+    df_sum.index=["Debit","Credit"]
+    df_sum.reset_index(inplace=True)
+    plot(df_sum['index'],df_sum['Sum'],args_dict["month"].capitalize()+" Credit vs Debit",args_dict)
+    print("Credit vs Debit Plot Stored...")
     
     filepath=args_dict["output_csv"]
     if filepath[-1]!="/":
