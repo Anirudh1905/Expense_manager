@@ -12,7 +12,7 @@ Firstly download the account statement from bank website and store it as .csv\
 **--output_csv :** output csv path. 
 
 ## How to run?
-python expense_manager.py --input "input filepath" --data "data.json" --month "month-name" --output_img "output dir path/" --output_csv "output dir path/"
+python expense_manager.py --input "data/input filepath" --data "data/data.json" --month "month-name" --output_img "outputs/" --output_csv "outputs/"
 
 ## Credit Pie Chart
 ![Credit Pie Chart](https://github.com/Anirudh1905/Expense_manager/blob/main/outputs/January%20Credit.png)
