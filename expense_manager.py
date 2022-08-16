@@ -123,7 +123,7 @@ def plot(x,y,type,args_dict):
     plt.legend(patches, labels, loc='upper left', bbox_to_anchor=(-1, 1.),
                fontsize=11)
 
-    filepath=args_dict["output_img"]
+    filepath=args_dict["output_path"]
     if filepath[-1]!="/":
         filepath=filepath+"/"
     plt.savefig(filepath+type+".png", bbox_inches='tight')
@@ -157,6 +157,12 @@ def main(args_dict):
     plot(debit['category'],debit['debit'],args_dict["month"].capitalize()+" Debit",args_dict)
     print("Debit Plot Stored...")
     
+    if args_dict["sub_category"]:
+        debit=df_debit.groupby(['sub_category']).agg({'debit':sum}).sort_values(by='debit',ascending=False)
+        debit.reset_index(inplace=True)
+        plot(debit['sub_category'],debit['debit'],args_dict["month"].capitalize()+" Sub Category Debit",args_dict)
+        print("Sub category Debit Plot Stored...")
+        
     credit=df_credit.groupby(['category']).agg({'credit':sum}).sort_values(by='credit',ascending=False)
     credit.reset_index(inplace=True)
     plot(credit['category'],credit['credit'],args_dict["month"].capitalize()+" Credit",args_dict)
@@ -168,7 +174,7 @@ def main(args_dict):
     plot(df_sum['index'],df_sum['Sum'],args_dict["month"].capitalize()+" Credit vs Debit",args_dict)
     print("Credit vs Debit Plot Stored...")
     
-    filepath=args_dict["output_csv"]
+    filepath=args_dict["output_path"]
     if filepath[-1]!="/":
         filepath=filepath+"/"
     df.to_csv(filepath+args_dict["month"]+"_op.csv",index=False)
@@ -179,8 +185,8 @@ if __name__ == "__main__":
     parser.add_argument('--input', type=str, help="input csv data")
     parser.add_argument('--data', type=str, help="data dict file")
     parser.add_argument('--month', type=str, help="month name")
-    parser.add_argument('--output_img', type=str, help="output image file")
-    parser.add_argument('--output_csv', type=str, help="output csv file")
+    parser.add_argument('--output_path', type=str, help="output path")
+    parser.add_argument('--sub_category', type=bool, nargs='?', const=False, help="show sub-category")
     
     args = parser.parse_args()
     args_dict = args.__dict__
