@@ -15,7 +15,7 @@ def chk(x):
         if "REFUND" in x or "UPIRET" in x or "REV-UPI"==x[:7] or "REVERS" in x or "RRR" in x:
             return "Refund"
         return "UPI"
-    elif "REFUND" in x or "UPIRET" in x or "REV-UPI"==x[:7] or "REVERS" in x or "RRR" in x:
+    elif "REFUND" in x or "UPIRET" in x or "REV-UPI"==x[:7] or "REVERS" in x or "RRR" in x or "CRV" in x:
         return "Refund"
     elif x[:3]=="ATW":
         return 'ATM'
@@ -27,7 +27,9 @@ def chk(x):
         return "FD returns"
     elif x[:4]=="INT.":
         return "FD interest"
-    elif x[0].isdigit():
+    elif "AUTO SWEEP" in x:
+        return "FD"
+    elif x[0].isdigit() or x[:4]=="IMPS" or x[:4]=="NEFT":
         return 'Account Transfer'
     else:
         return 'Others'
@@ -110,7 +112,7 @@ def plot(x,y,type,filepath):
     
     patches, texts = plt.pie(y, startangle=90, radius=50, colors=None if len(x)>20 else [cdict[v] for v in x])
 
-    labels = ['{0} - {1:1.2f} %'.format(i,j) for i,j in zip(x, percent)]
+    labels = ['{0} - {1:.2f}'.format(i,j) for i,j in zip(x, y)]
 
     sort_legend = True
     if sort_legend:
