@@ -12,10 +12,10 @@ warnings.filterwarnings("ignore")
 
 def chk(x):
     if x[:3]=="UPI":
-        if "REFUND" in x or "UPIRET" in x or "REV-UPI"==x[:7] or "REVERS" in x or "RRR" in x:
+        if (("REFUND" in x) or ("UPIRET" in x) or ("REV-UPI"==x[:7]) or ("REVERS" in x) or ("RRR" in x)):
             return "Refund"
         return "UPI"
-    elif "REFUND" in x or "UPIRET" in x or "REV-UPI"==x[:7] or "REVERS" in x or "RRR" in x or "CRV" in x:
+    elif (("REFUND" in x) or ("UPIRET" in x) or ("REV-UPI"==x[:7]) or ("REVERS" in x) or ("RRR" in x) or ('CRV' in x)):
         return "Refund"
     elif x[:3]=="ATW":
         return 'ATM'
@@ -29,7 +29,7 @@ def chk(x):
         return "FD interest"
     elif "AUTO SWEEP" in x:
         return "FD"
-    elif x[0].isdigit() or x[:4]=="IMPS" or x[:4]=="NEFT":
+    elif ((x[0].isdigit()) or (x[:4]=="IMPS") or (x[:4]=="NEFT") or ('FT ' in x)):
         return 'Account Transfer'
     else:
         return 'Others'
@@ -38,16 +38,16 @@ def get_descriptions(df):
     user_info=[]
     info=[]
     for i in range(len(df)):
-        if df.iloc[i,-1]=="UPI":
-            tmp=str(df.iloc[i,1]).rstrip(" ").split('-')
-            msg=tmp[-1]
-            if msg[:3]=="UPI":
-                msg="UPI"
-            user_info.append(msg)
+        if df.loc[i,"type"]=="UPI":
+            tmp=str(df.loc[i,"description"]).rstrip(" ").split('-')
+            f=tmp[-1]
+            if f[:3]=="UPI":
+                f="UPI"
+            user_info.append(f)
             info.append(tmp[1])
             
-        elif df.iloc[i,-1]=="Card":
-            tmp=str(df.iloc[i,1]).rstrip(" ").split(' ')
+        elif df.loc[i,"type"]=="Card":
+            tmp=str(df.loc[i,"description"]).rstrip(" ").split(' ')
             tmp=tmp[2:]
             msg=" "
             msg=msg.join(tmp)
@@ -55,15 +55,15 @@ def get_descriptions(df):
             user_info.append("Card")
             info.append(msg)
             
-        elif df.iloc[i,-1]=="Refund":
-            if df.iloc[i,-2]==0.0:
-                df.iloc[i,-1]="Others"
+        elif df.loc[i,"type"]=="Refund":
+            if df.loc[i,"credit"]==0.0:
+                df.loc[i,"type"]="Others"
             user_info.append("Others")
-            info.append(df.iloc[i,-1])
+            info.append(df.loc[i,"type"])
         
         else:
             user_info.append("Others")
-            info.append(df.iloc[i,-1])
+            info.append(df.loc[i,"type"])
         
     df["info"]=info
     df["msg"]=user_info
@@ -77,8 +77,8 @@ def get_category(df,args_dict):
     sub_category=[]
 
     for i in range(len(df)):
-        info=str(df.iloc[i,-2])
-        msg=str(df.iloc[i,-1])
+        info=str(df.loc[i,"info"])
+        msg=str(df.loc[i,"msg"])
         
         if msg=="UPI" or msg=="Card" or msg=="Others":
             t1=process.extract(info,tmp) 
@@ -139,6 +139,7 @@ def main(args_dict):
 
     df=pd.read_csv(args_dict["input"])
     df.drop(df.head(1).index,inplace=True)
+    df=df.reset_index(drop=True)
     df=df.drop(['Value Dat','Chq/Ref Number   ','Closing Balance'],axis=1)
     df.columns=['date','description','debit','credit']
     print("Length: ",len(df))
