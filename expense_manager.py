@@ -40,10 +40,10 @@ def get_descriptions(df):
     for i in range(len(df)):
         if df.loc[i,"type"]=="UPI":
             tmp=str(df.loc[i,"description"]).rstrip(" ").split('-')
-            f=tmp[-1]
-            if f[:3]=="UPI":
-                f="UPI"
-            user_info.append(f)
+            msg=tmp[-1]
+            if msg[:3]=="UPI":
+                msg="UPI"
+            user_info.append(msg)
             info.append(tmp[1])
             
         elif df.loc[i,"type"]=="Card":
@@ -90,7 +90,7 @@ def get_category(df,args_dict):
             t2_key,t2_conf=t2[0][0],t2[0][1]
             t_key,t_conf,t_data=[t1_key,t1_conf,info] if t1_conf>t2_conf else [t2_key,t2_conf,msg]
             
-        if t_conf>60:
+        if t_conf>70:
             category.append(data[t_key])
             sub_category.append(t_key)
         else:
