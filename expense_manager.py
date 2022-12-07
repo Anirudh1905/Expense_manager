@@ -107,6 +107,10 @@ def get_category(df,args_dict):
     return df
 
 def plot(x,y,type,filepath):
+    if len(x)==0 or len(y)==0:
+        print("No data found for ",type)
+        return
+    
     percent = 100.*y/y.sum()
     cdict = dict(zip(x, plt.cm.tab10.colors if len(x)<=10 else plt.cm.tab20.colors)) 
     
