@@ -99,7 +99,6 @@ def get_category(df, path):
             else:
                 category.append("Others")
                 sub_category.append("Others")
-    #     print(t_data,t_conf,category[i])
 
     df['sub_category'] = sub_category
     df['category'] = category
@@ -140,17 +139,15 @@ def preprocess(df,month_idx):
     df.columns = ['date', 'description', 'debit', 'credit']
     df['date'] = [x.strip() for x in df['date']]
     df['date'] = pd.to_datetime(df['date'], format="%d/%m/%y")
+    df['month'] = df['date'].dt.strftime('%B %Y')
     if month_idx!=0:
         df = df[df['date'].dt.month==month_idx]
     df = df.reset_index(drop=True)
-    print("Length: ", len(df))
 
     df['type'] = df['description'].apply(chk)
-    # print(df['type'].value_counts())
-
     df = get_descriptions(df)
     df = get_category(df, 'data/data.json')
-    # print(df['sub_category'].value_counts())
+    
     return df
 
 

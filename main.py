@@ -1,11 +1,12 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+import locale
 from expense_utils import get_dataframes
 from streamlit_extras.add_vertical_space import add_vertical_space
 
 st.set_page_config(page_title="Expense Manager App", layout="wide")
-
+locale.setlocale(locale.LC_MONETARY, 'en_IN')
 header = st.container()
 data = st.container()
 viz = st.container()
@@ -41,12 +42,14 @@ with data:
         df_credit['tr_type'] = ['credit']*len(df_credit)
         df_debit.rename(columns={'debit':'amount'},inplace=True)
         df_credit.rename(columns={'credit':'amount'},inplace=True)
-        amount_df = pd.concat([df_debit[['date','amount','tr_type','category','sub_category']], df_credit[['date','amount','tr_type','category','sub_category']]])
+        amount_df = pd.concat([df_debit[['date','amount','tr_type','category','sub_category','month']], df_credit[['date','amount','tr_type','category','sub_category','month']]])
         amount_df = amount_df.sort_values(by='date')
  
 with viz:
     if flag:  
         st.header("Data Visualizations")
+        st.subheader("Total Debit: "+ str(locale.currency(df_sum.loc[0,'Sum'], grouping=True)))
+        st.subheader("Total Credit: "+ str(locale.currency(df_sum.loc[1,'Sum'], grouping=True)))
         fig = px.line(amount_df,x='date',y='amount',color='tr_type',title="Transaction type wise Debit",custom_data=[amount_df['category'],amount_df['sub_category']])
         hovertemp = "<b>Date: </b> %{x} <br>"
         hovertemp += "<b>Amount: </b> %{y} <br>"
@@ -54,8 +57,12 @@ with viz:
         hovertemp += "<b>Sub Category: </b> %{customdata[1]}"
         fig.update_traces(hovertemplate=hovertemp)
         st.plotly_chart(fig, theme="streamlit", use_container_width=True)
-        fig = px.pie(df_sum,values='Sum',names='index',title="Debit vs Credit")
-        fig.update_layout(title_x=0.43)
+        # fig = px.pie(df_sum,values='Sum',names='index',title="Debit vs Credit")
+        # fig.update_layout(title_x=0.43)
+        # st.plotly_chart(fig, theme="streamlit", use_container_width=True)
+        
+        fig = px.bar(amount_df,x='month',y='amount',color='tr_type',title="Month wise Transaction",barmode='group',custom_data=[amount_df['category'],amount_df['sub_category']])
+        fig.update_traces(hovertemplate=hovertemp)
         st.plotly_chart(fig, theme="streamlit", use_container_width=True)
         
         left, right = st.columns(2)
