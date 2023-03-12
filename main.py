@@ -7,7 +7,6 @@ from expense_utils import get_dataframes
 # from streamlit_extras.add_vertical_space import add_vertical_space
 
 st.set_page_config(page_title="Expense Manager App", layout="wide")
-# locale.setlocale(locale.LC_ALL, ')
 header = st.container()
 data = st.container()
 viz = st.container()
@@ -68,7 +67,6 @@ with viz:
         
         left, right = st.columns(2)
         fig_l = px.pie(category_debit,values='debit',names='category',title="Categorywise Debit")
-        fig_l.update_layout(title_x=0.35)
         left.plotly_chart(fig_l, theme="streamlit", use_container_width=True)
         
         fig_l = px.pie(sub_category_debit,values='debit',names='sub_category',title="Sub Categorywise Debit")
