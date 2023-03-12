@@ -21,4 +21,4 @@ Website : [Expense Manager App](https://anirudh1905-expense-manager-main-vsixm8.
 
 ***Data Privacy:** We dont store any of the users data*
 
-*Currently only works for HDFC bank statements*
+***Note:** Currently only works for HDFC bank statements*
