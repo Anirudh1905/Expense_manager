@@ -12,3 +12,13 @@ Website : [Expense Manager App](https://anirudh1905-expense-manager-main-vsixm8.
 * Finally save as type as "All Files" and name it as filename.csv
 
 ## Screenshots
+
+![1678630584674](image/README/1678630584674.png)
+
+![1678630607429](image/README/1678630607429.png)
+
+![1678630614513](image/README/1678630614513.png)
+
+***Data Privacy:** We dont store any of the users data*
+
+*Currently only works for HDFC bank statements*
