@@ -1,15 +1,13 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-import locale
+from babel.numbers import format_currency
 import logging
 from expense_utils import get_dataframes
 # from streamlit_extras.add_vertical_space import add_vertical_space
 
 st.set_page_config(page_title="Expense Manager App", layout="wide")
-# locale.setlocale(locale.LC_ALL, 'en_IN.ISO8859-1')
-for lang in locale.locale_alias.values():
-    print(lang)
+# locale.setlocale(locale.LC_ALL, ')
 header = st.container()
 data = st.container()
 viz = st.container()
@@ -51,8 +49,8 @@ with data:
 with viz:
     if flag:  
         st.header("Data Visualizations")
-        st.subheader("Total Debit: "+ str(locale.currency(df_sum.loc[0,'Sum'], grouping=True)))
-        st.subheader("Total Credit: "+ str(locale.currency(df_sum.loc[1,'Sum'], grouping=True)))
+        st.subheader("Total Debit: "+ str(format_currency(df_sum.loc[0,'Sum'], 'INR', locale='en_IN')))
+        st.subheader("Total Credit: "+ str(format_currency(df_sum.loc[1,'Sum'], 'INR', locale='en_IN')))
         fig = px.line(amount_df,x='date',y='amount',color='tr_type',title="Transaction type wise Debit",custom_data=[amount_df['category'],amount_df['sub_category']])
         hovertemp = "<b>Date: </b> %{x} <br>"
         hovertemp += "<b>Amount: </b> %{y} <br>"
