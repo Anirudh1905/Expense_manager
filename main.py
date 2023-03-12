@@ -26,6 +26,10 @@ with data:
     option = st.selectbox("Enter month for which u want ot see the analysis", months, 0)
     month_idx = months.index(option)
     flag = False
+    if  uploaded_file is not None and uploaded_file.name[-3:]!='csv':
+        st.write("File Format not supported! Please upload CSV file")
+        uploaded_file = None
+        
     if uploaded_file is not None:
         flag = True
         df, df_debit, df_credit, df_sum = get_dataframes(pd.read_csv(uploaded_file),month_idx)
