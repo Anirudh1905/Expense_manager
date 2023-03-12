@@ -7,7 +7,7 @@ from expense_utils import get_dataframes
 # from streamlit_extras.add_vertical_space import add_vertical_space
 
 st.set_page_config(page_title="Expense Manager App", layout="wide")
-locale.setlocale(locale.LC_ALL, 'en_IN.ISO8859-1')
+# locale.setlocale(locale.LC_ALL, 'en_IN.ISO8859-1')
 for lang in locale.locale_alias.values():
     print(lang)
 header = st.container()
