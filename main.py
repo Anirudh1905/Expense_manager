@@ -21,7 +21,7 @@ with header:
     
 with data:
     # username = st.text_input('Enter username')
-    uploaded_file = st.file_uploader("Upload your bank statement here")
+    uploaded_file = st.file_uploader("Upload your bank statement here (Only CSV)")
     months = ["All","January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
     option = st.selectbox("Enter month for which u want ot see the analysis", months, 0)
     month_idx = months.index(option)
