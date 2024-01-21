@@ -171,4 +171,7 @@
     "Concerts": "Entertainment",
     "Vacations": "Entertainment",
     "Subscriptions (Netflix, Amazon, Hulu, etc.)": "Entertainment"
+    "dunzo": "groceries"
+    "uber": "Transportation"
+    "airbnb": "travel"
 }
