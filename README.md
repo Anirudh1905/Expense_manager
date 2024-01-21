@@ -13,11 +13,11 @@ Website : [Expense Manager App](https://anirudh1905-expense-manager-main-vsixm8.
 
 ## Screenshots
 
-![1678630584674](image/README/1678630584674.png)
+![1705837112988](image/README/1705837112988.png)
 
-![1678630607429](image/README/1678630607429.png)
+![1705837125004](image/README/1705837125004.png)
 
-![1678630614513](image/README/1678630614513.png)
+![1705837132092](image/README/1705837132092.png)
 
 ***Data Privacy:** We dont store any of the users data*
 

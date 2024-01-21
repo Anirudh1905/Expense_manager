@@ -13,9 +13,9 @@ data = st.container()
 viz = st.container()
 
 
-def get_tag(df, tag, tr_type):
+def get_tag(df, tag, transaction_type):
     new_df = (
-        df.groupby([tag]).agg({tr_type: sum}).sort_values(by=tr_type, ascending=False)
+        df.groupby([tag]).agg({transaction_type: sum}).sort_values(by=transaction_type, ascending=False)
     )
     new_df.reset_index(inplace=True)
     return new_df
@@ -63,17 +63,17 @@ with data:
         sub_category_credit = get_tag(df_credit, "sub_category", "credit")
         type_debit = get_tag(df_debit, "type", "debit")
         type_credit = get_tag(df_credit, "type", "credit")
-        df_debit["tr_type"] = ["debit"] * len(df_debit)
-        df_credit["tr_type"] = ["credit"] * len(df_credit)
+        df_debit["transaction_type"] = ["debit"] * len(df_debit)
+        df_credit["transaction_type"] = ["credit"] * len(df_credit)
         df_debit.rename(columns={"debit": "amount"}, inplace=True)
         df_credit.rename(columns={"credit": "amount"}, inplace=True)
         amount_df = pd.concat(
             [
                 df_debit[
-                    ["date", "amount", "tr_type", "category", "sub_category", "month"]
+                    ["date", "amount", "transaction_type", "category", "sub_category", "month"]
                 ],
                 df_credit[
-                    ["date", "amount", "tr_type", "category", "sub_category", "month"]
+                    ["date", "amount", "transaction_type", "category", "sub_category", "month"]
                 ],
             ]
         )
@@ -102,9 +102,11 @@ with viz:
             amount_df,
             x="date",
             y="amount",
-            color="tr_type",
+            color="transaction_type",
             title="Transaction type wise Debit",
+            labels={"date": "Date"},
             custom_data=[amount_df["category"], amount_df["sub_category"]],
+            color_discrete_map={"credit": "green", "debit": "red"}
         )
         hovertemp = "<b>Date: </b> %{x} <br>"
         hovertemp += "<b>Amount: </b> %{y} <br>"
@@ -120,10 +122,12 @@ with viz:
             amount_df,
             x="month",
             y="amount",
-            color="tr_type",
+            color="transaction_type",
             title="Month wise Transaction",
+            labels={"month": "Month"},
             barmode="group",
-            custom_data=[amount_df["category"], amount_df["sub_category"]]
+            custom_data=[amount_df["category"], amount_df["sub_category"]],
+            color_discrete_map={"credit": "blue", "debit": "orange"}
         )
         fig.update_traces(hovertemplate=hovertemp)
         st.plotly_chart(fig, theme="streamlit", use_container_width=True)
