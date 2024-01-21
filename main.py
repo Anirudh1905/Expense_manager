@@ -77,7 +77,7 @@ with data:
                 ],
             ]
         )
-        amount_df = amount_df.sort_values(by="date")
+        amount_df = amount_df.sort_values(by="date").reset_index(drop=True)
 
         csv_file = df.to_csv(index=False)
         st.download_button(
@@ -123,7 +123,7 @@ with viz:
             color="tr_type",
             title="Month wise Transaction",
             barmode="group",
-            custom_data=[amount_df["category"], amount_df["sub_category"]],
+            custom_data=[amount_df["category"], amount_df["sub_category"]]
         )
         fig.update_traces(hovertemplate=hovertemp)
         st.plotly_chart(fig, theme="streamlit", use_container_width=True)
