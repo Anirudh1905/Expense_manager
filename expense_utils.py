@@ -156,7 +156,7 @@ def preprocess(df, month_idx):
     df = df.drop(["Value Dat", "Chq/Ref Number   ", "Closing Balance"], axis=1)
     df.columns = ["date", "description", "debit", "credit"]
     df["date"] = [x.strip() for x in df["date"]]
-    df["date"] = pd.to_datetime(df["date"])
+    df["date"] = pd.to_datetime(df["date"], format='%d/%m/%y')
     df["month"] = df["date"].dt.strftime("%B %Y")
     if month_idx != 0:
         df = df[df["date"].dt.month == month_idx]
