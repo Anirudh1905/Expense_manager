@@ -152,7 +152,6 @@ def plot(x, y, type, filepath):
 
 
 def preprocess(df, month_idx):
-    df.drop(df.head(1).index, inplace=True)
     df = df.drop(["Value Dat", "Chq/Ref Number   ", "Closing Balance"], axis=1)
     df.columns = ["date", "description", "debit", "credit"]
     df["date"] = [x.strip() for x in df["date"]]
